@@ -2,3 +2,14 @@ ippl
 ====
 
 MyMart app implementation.
+
+Quick Start
+-----------
+
+First time cloning the repo:
+
+    yarn install
+
+Serving up the development server:
+
+    yarn dev
