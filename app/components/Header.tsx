@@ -25,8 +25,8 @@ export default function Header() {
                     <span className="text-lg">Mart</span>
                 </div>
                 <form className="ml-4 flex items-center justify-center rounded bg-neutral-900 p-1" onSubmit={(e) => e.preventDefault()}>
-                        <HiOutlineSearch className="m-2" />
-                        <input className="mx-2 py-1 bg-transparent outline-none" type="text" placeholder="Quick Search" />
+                    <HiOutlineSearch className="m-2" />
+                    <input className="mx-2 py-1 bg-transparent outline-none" type="text" placeholder="Quick Search" />
                 </form>
             </div>
             <div>
