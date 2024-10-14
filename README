@@ -3,6 +3,9 @@ ippl
 
 MyMart app implementation.
 
+TODOs:
+  - handle 404
+
 Quick Start
 -----------
 
