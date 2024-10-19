@@ -1,9 +1,9 @@
-export type RackItem = {
+export type RackLabel = {
     name: string,
     color: string,
 };
 
-export const racks: RackItem[] = [
+export const racks: RackLabel[] = [
     {
         name: "Snacks",
         color: "#97FA9A",
@@ -45,3 +45,34 @@ export const racks: RackItem[] = [
         color: "#D1B2A1",
     }
 ];
+
+export type RackItem = {
+    // TODO: add more information
+    name: string,
+    price: number,
+};
+
+export const rackItems: Record<string, RackItem[]> = {
+    "Snacks": [
+        { name: "Ritz", price: 25 },
+        { name: "M&Ms", price: 25 },
+        { name: "Lay's", price: 25 },
+        { name: "Oreo", price: 25 },
+        { name: "Oatmeal", price: 25 },
+        { name: "Twinkies", price: 25 },
+    ],
+    "Chocolates": [
+        { name: "Reese's", price: 25 },
+        { name: "Hersey's", price: 25 },
+        { name: "Snickers", price: 25 },
+        { name: "KitKat", price: 25 },
+    ],
+    "Sandwich": [],
+    "Cocktails": [],
+    "Soda": [],
+    "Noodles": [],
+    "Apples": [],
+    "Juice": [],
+    "Cereal": [],
+    "Rice": [],
+};
