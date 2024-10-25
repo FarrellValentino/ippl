@@ -1,8 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
-import Rack from "~/components/Rack/Rack";
-import RackItems from "~/components/Rack/Items";
-import { type RackLabel, racks } from "~/data/racks";
+import RackBox from "~/components/Rack/RackBox";
 import { useState } from "react";
+import { useLoaderData } from "@remix-run/react";
+import db, { type Category } from "~/.server/db";
 
 export const meta: MetaFunction = () => {
     return [
@@ -11,15 +11,20 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export default function Index() {
-    const [label, setLabel]: [RackLabel, Function] = useState(racks[0]);
+export const loader = async () => {
+    return await db.getCategories();
+};
+
+export default () => {
+    const categories = useLoaderData<typeof loader>();
+    const [currentCategory, setCurrentCategory]: [Category, Function] = useState(categories[0]);
 
     return (
         <div>
             <div className="flex mt-6">
                 <div className="w-9/12 h-80 overflow-y-scroll flex flex-wrap content-start gap-2">
-                    {racks.map((label: RackLabel, i: number) => (
-                        <Rack key={`Rack @${i}`} label={label} onClick={(label) => setLabel((_: RackLabel) => label)} />
+                    {categories.map((c: Category, i: number) => (
+                        <RackBox key={`Rack @${i}`} category={c} onClick={(c) => setCurrentCategory((_: Category) => c)} />
                     ))}
                 </div>
                 <div className="w-3/12 bg-neutral-900">
@@ -27,7 +32,7 @@ export default function Index() {
                     <hr className="border-dashed mx-4" />
                 </div>
             </div>
-            <RackItems label={label} />
+            {/* <RackItems label={label} /> */}
         </div>
     );
 }
