@@ -1,5 +1,5 @@
 import { type ActionFunctionArgs, redirect } from "@remix-run/node";
-import db from "~/.server/db";
+import db from "~/db";
 
 /* TODO: visible on development only
  */

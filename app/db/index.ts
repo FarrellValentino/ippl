@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
-const DB_FILENAME = "app/.server/db/mymart.db";
+const DB_FILENAME = "app/db/mymart.db";
 
 export type Rack = {
     id: number,
@@ -18,6 +18,7 @@ export type Category = {
 
 export const reset = async () => {
     const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    console.log("hello?/");
 
     await db.run("CREATE TABLE IF NOT EXISTS Category (name VARCHAR(32) PRIMARY KEY UNIQUE NOT NULL, color VARCHAR(16))");
     await db.run("INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", "Snacks", "#97FA9A");

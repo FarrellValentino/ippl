@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import RackBox from "~/components/Rack/RackBox";
 import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
-import db, { type Category } from "~/.server/db";
+import db, { type Category } from "~/db";
 
 export const meta: MetaFunction = () => {
     return [

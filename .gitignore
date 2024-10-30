@@ -1,2 +1,2 @@
 node_modules/
-app/.server/db/*.db
+app/**/db/*.db
