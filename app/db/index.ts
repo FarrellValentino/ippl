@@ -37,6 +37,11 @@ export const reset = async () => {
     await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Lay's", 12.900, 32);
     await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Oatmeal", 10.900, 20);
     await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Twinkies", 10.900, 12);
+    await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Chocolates", "KitKat", 13500, 20);
+    await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Chocolates", "Cadbury Dairy Milk", 22500, 15);
+    await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Chocolates", "Toblerone", 45000, 10);
+    await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Chocolates", "SilverQueen", 27000, 8);
+    await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Chocolates", "Ferrero Rocher", 75000, 5);
 
     await db.close();
 };
