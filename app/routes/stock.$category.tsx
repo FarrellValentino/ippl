@@ -14,10 +14,12 @@ export default () => {
     const items = useLoaderData<typeof loader>();
 
     return (
-        <div>
+        <div className="mt-6 flex">
             {items.map((item: Rack, i: number) => 
-                <div key={`stock-rack-${i}`}>
-                    {item.name}
+                <div className="h-24 w-24 bg-neutral-900 mr-2" key={`stock-rack-${i}`}>
+                    <p>{item.name}</p>
+                    <button className="py-1 px-3 mr-1">+</button>
+                    <button className="py-1 px-3">-</button>
                 </div>
             )}
         </div>
