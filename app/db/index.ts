@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-
-const DB_FILENAME = "app/db/mymart.db";
+import fs from "fs";
+import config from "~/config";
 
 export type Rack = {
     id: number,
@@ -17,7 +17,7 @@ export type Category = {
 };
 
 export const reset = async () => {
-    const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    const db = await open({filename: config.DB_FILEPATH, driver: sqlite3.Database});
 
     await db.run("CREATE TABLE IF NOT EXISTS Category (name VARCHAR(32) PRIMARY KEY UNIQUE NOT NULL, color VARCHAR(16))");
     await db.run("INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", "Snacks", "#97FA9A");
@@ -42,25 +42,29 @@ export const reset = async () => {
 };
 
 export const getRacks = async (): Promise<Rack[]> => {
-    const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    const db = await open({filename: config.DB_FILEPATH, driver: sqlite3.Database});
     const racks: Rack[] = await db.all("SELECT * FROM Racks");
     await db.close();
     return racks;
 };
 
 export const getRacksByCategory = async (category: string): Promise<Rack[]> => {
-    const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    const db = await open({filename: config.DB_FILEPATH, driver: sqlite3.Database});
     const racks: Rack[] = await db.all("SELECT * FROM Racks WHERE category = ?", category);
     await db.close();
     return racks;
 };
 
 export const getCategories = async (): Promise<Category[]> => {
-    const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    const db = await open({filename: config.DB_FILEPATH, driver: sqlite3.Database});
     const categories: Category[] = await db.all("SELECT * FROM Category");
     await db.close();
     return categories;
 };
 
-const db = { reset, getRacks, getCategories, getRacksByCategory };
+export const exists = (): boolean => {
+    return fs.existsSync(config.DB_FILEPATH);
+};
+
+const db = { reset, getRacks, getCategories, getRacksByCategory, exists };
 export default db;

@@ -5,14 +5,20 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import { LinksFunction } from "@remix-run/node";
+import { MetaFunction } from "@remix-run/node";
 
 import Header from "~/components/Header";
-import "./tailwind.css";
+import db from "~/db";
+import "~/tailwind.css";
 
-// export const links: LinksFunction = () => [
-//     { rel: "preload", as: "style", href: tailwind },
-// ];
+export const meta: MetaFunction = () => [
+    { title: "My Mart" },
+];
+
+export const loader = async (): Promise<null> => {
+    if (!db.exists()) await db.reset();
+    return null;
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (

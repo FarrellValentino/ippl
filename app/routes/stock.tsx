@@ -1,13 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData, Outlet } from "@remix-run/react";
 import db, { type Category } from "~/db";
-
-export const meta: MetaFunction = () => {
-    return [
-        { title: "My Mart" },
-        { name: "description", content: "My Mart" },
-    ];
-};
 
 export const loader = async () => {
     return await db.getCategories();
