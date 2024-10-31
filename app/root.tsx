@@ -20,7 +20,7 @@ export const loader = async (): Promise<null> => {
     return null;
 };
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default ({ children }: { children: React.ReactNode }) => {
     return (
         <html lang="en">
             <head>
@@ -32,15 +32,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <body>
                 <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8">
                     <Header />
-                    {children}
+                    <Outlet />
                 </div>
                 <ScrollRestoration />
                 <Scripts />
             </body>
         </html>
     );
-}
-
-export default () => {
-    return <Outlet />;
-}
+};
