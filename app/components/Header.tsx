@@ -40,7 +40,7 @@ export default function Header() {
                 <ul className="flex flex-row">
                     {menu.map((m: any, i: number) => (
                         <li className="ml-8" key={i}>
-                            <Link to={m.link}>{m.name}</Link>
+                            <Link to={m.link} className="button">{m.name}</Link>
                         </li>
                     ))}
                 </ul>

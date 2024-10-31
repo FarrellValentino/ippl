@@ -6,10 +6,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { MetaFunction } from "@remix-run/node";
+import { ReactLenis as Lenis } from "lenis/react";
 
 import Header from "~/components/Header";
 import db from "~/db";
+
 import "~/tailwind.css";
+import "lenis/dist/lenis.css";
 
 export const meta: MetaFunction = () => [
     { title: "My Mart" },
@@ -32,7 +35,9 @@ export default ({ children }: { children: React.ReactNode }) => {
             <body>
                 <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-8">
                     <Header />
-                    <Outlet />
+                    <Lenis root>
+                        <Outlet />
+                    </Lenis>
                 </div>
                 <ScrollRestoration />
                 <Scripts />
