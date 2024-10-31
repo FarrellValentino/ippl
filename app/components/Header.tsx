@@ -1,5 +1,6 @@
 import { HiOutlineShoppingCart, HiOutlineSearch } from "react-icons/hi";
-import { Link } from "@remix-run/react";
+import { Link, useSearchParams } from "@remix-run/react";
+import config from "~/config";
 
 const menu: any[] = [
     {
@@ -17,6 +18,8 @@ const menu: any[] = [
 ]
 
 export default function Header() {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     return (
         <header className="flex items-center justify-between mx-2 py-5 border-neutral-800 border-b">
             <div className="flex items-center justify-center">
@@ -26,7 +29,11 @@ export default function Header() {
                 </div>
                 <form className="ml-4 flex items-center justify-center rounded bg-neutral-900 p-1" onSubmit={(e) => e.preventDefault()}>
                     <HiOutlineSearch className="m-2" />
-                    <input className="mx-2 py-1 bg-transparent outline-none" type="text" placeholder="Quick Search" />
+                    <input className="mx-2 py-1 bg-transparent outline-none" type="text" placeholder="Quick Search" onChange={(e) => {
+                        const params = new URLSearchParams();
+                        params.set(config.URL_SEARCH_PARAM, e.target.value);
+                        setSearchParams(params, { preventScrollReset: true });
+                    }} />
                 </form>
             </div>
             <div>
