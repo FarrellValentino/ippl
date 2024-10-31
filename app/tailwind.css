@@ -13,3 +13,11 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 24px;
     letter-spacing: -0.04em;
 }
+
+button {
+	color: white;
+	border-radius: 15px;
+	border: 1px solid grey;
+	text-decoration: none;
+	padding: 2px 4px;
+}
