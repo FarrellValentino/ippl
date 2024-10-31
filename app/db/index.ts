@@ -18,7 +18,6 @@ export type Category = {
 
 export const reset = async () => {
     const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
-    console.log("hello?/");
 
     await db.run("CREATE TABLE IF NOT EXISTS Category (name VARCHAR(32) PRIMARY KEY UNIQUE NOT NULL, color VARCHAR(16))");
     await db.run("INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", "Snacks", "#97FA9A");
@@ -49,6 +48,13 @@ export const getRacks = async (): Promise<Rack[]> => {
     return racks;
 };
 
+export const getRacksByCategory = async (category: string): Promise<Rack[]> => {
+    const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
+    const racks: Rack[] = await db.all("SELECT * FROM Racks WHERE category = ?", category);
+    await db.close();
+    return racks;
+};
+
 export const getCategories = async (): Promise<Category[]> => {
     const db = await open({filename: DB_FILENAME, driver: sqlite3.Database});
     const categories: Category[] = await db.all("SELECT * FROM Category");
@@ -56,5 +62,5 @@ export const getCategories = async (): Promise<Category[]> => {
     return categories;
 };
 
-const db = { reset, getRacks, getCategories };
+const db = { reset, getRacks, getCategories, getRacksByCategory };
 export default db;

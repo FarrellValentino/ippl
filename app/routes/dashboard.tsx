@@ -1,7 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import RackBox from "~/components/Rack/RackBox";
-import { useState } from "react";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, Outlet } from "@remix-run/react";
 import db, { type Category } from "~/db";
 
 export const meta: MetaFunction = () => {
@@ -17,14 +15,18 @@ export const loader = async () => {
 
 export default () => {
     const categories = useLoaderData<typeof loader>();
-    const [currentCategory, setCurrentCategory]: [Category, Function] = useState(categories[0]);
 
     return (
         <div>
             <div className="flex mt-6">
                 <div className="w-9/12 h-80 overflow-y-scroll flex flex-wrap content-start gap-2">
-                    {categories.map((c: Category, i: number) => (
-                        <RackBox key={`Rack @${i}`} category={c} onClick={(c) => setCurrentCategory((_: Category) => c)} />
+                    {categories.map((category: Category, i: number) => (
+                        <Link to={`/dashboard/${category.name.toLowerCase()}`} key={`dashboard-${i}`} >
+                            <div className="relative size-36 text-black cursor-pointer" style={{background: category.color}} >
+                                <p className="text-center">{category.name}</p>
+                                <span className="absolute w-11 h-2.5 rounded-lg cursor-default bg-black bottom-1.5 left-0 right-0 mx-auto"></span>
+                            </div>
+                        </Link>
                     ))}
                 </div>
                 <div className="w-3/12 bg-neutral-900">
@@ -32,7 +34,7 @@ export default () => {
                     <hr className="border-dashed mx-4" />
                 </div>
             </div>
-            {/* <RackItems label={label} /> */}
+            <Outlet />
         </div>
     );
 }
