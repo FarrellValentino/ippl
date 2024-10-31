@@ -16,7 +16,7 @@ export default () => {
     return (
         <div>
             {items.map((item: Rack, i: number) => 
-                <div key={`dashboard-rack-${i}`}>
+                <div key={`stock-rack-${i}`}>
                     {item.name}
                 </div>
             )}

@@ -22,7 +22,7 @@ export default function Header() {
             <div className="flex items-center justify-center">
                 <div className="flex items-center justify-center mr-4">
                     <HiOutlineShoppingCart className="mr-4" />
-                    <span className="text-lg">Mart</span>
+                    <Link to="/" className="text-lg">Home</Link>
                 </div>
                 <form className="ml-4 flex items-center justify-center rounded bg-neutral-900 p-1" onSubmit={(e) => e.preventDefault()}>
                     <HiOutlineSearch className="m-2" />
