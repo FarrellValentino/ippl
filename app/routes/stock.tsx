@@ -1,4 +1,4 @@
-import { Link, useLoaderData, Outlet } from "@remix-run/react";
+import { Link, useLoaderData, Outlet, MetaFunction } from "@remix-run/react";
 import { useState } from "react";
 import utils from "~/utils";
 import db, { type Category } from "~/db";
@@ -6,6 +6,10 @@ import db, { type Category } from "~/db";
 export const loader = async () => {
     return await db.getCategories();
 };
+
+export const meta: MetaFunction = () => [
+    { title: "My Mart - Stock" },
+];
 
 export default () => {
     const categories = useLoaderData<typeof loader>();

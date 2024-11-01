@@ -1,10 +1,14 @@
-import { json, useLoaderData } from "@remix-run/react";
+import { json, useLoaderData, MetaFunction } from "@remix-run/react";
 import db from "~/db";
 
 const boxes = [
     "/assets/box-5.png",
     "/assets/box-3.png",
     "/assets/box-8.png",
+];
+
+export const meta: MetaFunction = () => [
+    { title: "My Mart - Statistics" },
 ];
 
 export const loader = async () => {

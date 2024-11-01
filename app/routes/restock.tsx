@@ -1,9 +1,13 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, MetaFunction } from "@remix-run/react";
 import db, { type Category } from "~/db";
 
 export const loader = async () => {
     return await db.getCategories();
 };
+
+export const meta: MetaFunction = () => [
+    { title: "My Mart - Restock" },
+];
 
 export default () => {
     const categories = useLoaderData<typeof loader>();
@@ -16,7 +20,7 @@ export default () => {
                 <div className="my-2">
                     <label htmlFor="category">Category</label>
                     <br />
-                    <select className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="category">
+                    <select className="h-10 w-52 bg-neutral-900 text-white p-1 rounded" name="category">
                         {categories.map((category: Category, i: number) => 
                             <option key={`option-restock-${i}`} value={category.name}>{category.name}</option>
                         )}
@@ -26,13 +30,13 @@ export default () => {
                 <div className="my-2">
                     <label htmlFor="name">Name</label>
                     <br />
-                    <input className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="name" type="text" />
+                    <input className="h-10 w-52 bg-neutral-900 text-white p-1 rounded" name="name" type="text" />
                 </div>
 
                 <div className="my-2">
                     <label htmlFor="price">Price</label>
                     <br />
-                    <input className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="price" type="number" defaultValue={2000} />
+                    <input className="h-10 w-52 bg-neutral-900 text-white p-1 rounded" name="price" type="number" defaultValue={2000} />
                 </div>
 
                 <button type="submit">Submit</button>
