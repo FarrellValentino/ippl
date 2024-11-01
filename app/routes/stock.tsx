@@ -32,7 +32,7 @@ export default () => {
                             {Object.values(receipt).map((item: any, i: number) => {
                                 return (
                                     <div key={`receipt-item-${i}`}>
-                                        <p><span>-</span> {item.name}: Rp. {item.price} ({item.count}x)</p>
+                                        <p><span>-</span> {item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
                                     </div>
                                 );
                             })}
