@@ -22,7 +22,7 @@ export default () => {
                 hmap[item.category] = 0;
             }
 
-            hmap[item.category]++;
+            hmap[item.category] += item.stock;
         }
 
         const mostFilled = Object.entries(hmap).sort((a, b) => a[1] - b[1])[0];

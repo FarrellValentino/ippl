@@ -30,7 +30,7 @@ export default () => {
                     <div className="mx-4 mt-2">
                         <div className="h-52 overflow-auto">
                             {Object.values(receipt).map((item: any, i: number) => (
-                                <div className="cursor-pointer" key={`receipt-item-${i}`} onClick={() => {
+                                <div className="group flex items-center justify-between cursor-pointer" key={`receipt-item-${i}`} onClick={() => {
                                     setReceipt((prev: { [key: string]: any }): any => {
                                         const obj = { ...prev };
 
@@ -47,6 +47,7 @@ export default () => {
                                     });
                                 }}>
                                     <p>{item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
+                                    <span className="bg-red-700 text-sm px-2 rounded-lg hidden group-hover:block">-</span>
                                 </div>
                             ))}
                         </div>
