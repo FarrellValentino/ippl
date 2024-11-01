@@ -31,6 +31,12 @@ export default () => {
                                 }
 
                                 obj[item.name] = { ...obj[item.name] };
+
+                                // NOTE: not enough stock
+                                if (obj[item.name].count + 1 > obj[item.name].stock) {
+                                    return obj;
+                                }
+
                                 obj[item.name].count += 1;
                                 return obj;
                             });
