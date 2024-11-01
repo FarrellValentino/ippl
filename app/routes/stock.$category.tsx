@@ -16,7 +16,7 @@ export default () => {
     return (
         <div className="mt-6 flex">
             {items.map((item: Rack, i: number) => 
-                <div className="size-36 bg-neutral-900 mr-2" key={`stock-rack-${i}`}>
+                <div className="size-36 bg-neutral-900 mr-2 p-2" key={`stock-rack-${i}`}>
                     <p>{item.name}</p>
                     <i className="text-sm">Rp. <span className="text-lime-400">{item.price}</span></i>
 
