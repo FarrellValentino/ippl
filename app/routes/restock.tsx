@@ -10,26 +10,30 @@ export default () => {
 
     return (
         <>
+            <br />
             <h1>Restock</h1>
             <form action="POST" onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="category">Category</label>
+                <div className="my-2">
+                    <label htmlFor="category">Category</label>
+                    <br />
+                    <select className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="category">
+                        {categories.map((category: Category, i: number) => 
+                            <option key={`option-restock-${i}`} value={category.name}>{category.name}</option>
+                        )}
+                    </select>
+                </div>
 
-                <select name="category">
-                    {categories.map((category: Category, i: number) => 
-                        <option key={`option-restock-${i}`} value={category.name}>{category.name}</option>
-                    )}
-                </select>
+                <div className="my-2">
+                    <label htmlFor="name">Name</label>
+                    <br />
+                    <input className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="name" type="text" />
+                </div>
 
-                <br />
-                <label htmlFor="name">Name</label>
-                <input name="name" type="text" />
-
-                <br />
-
-                <label htmlFor="price">Price</label>
-                <input name="price" type="number" defaultValue={2000} />
-
-                <br />
+                <div className="my-2">
+                    <label htmlFor="price">Price</label>
+                    <br />
+                    <input className="h-7 w-52 bg-neutral-900 text-white p-1 rounded" name="price" type="number" defaultValue={2000} />
+                </div>
 
                 <button type="submit">Submit</button>
             </form>
