@@ -36,7 +36,7 @@ export default () => {
                             ))}
                         </div>
                         <div className="flex align-center justify-between mt-5">
-                            <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + item.price, 0)}</p>
+                            <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + (item.price * item.count), 0)}</p>
                             <button>Accept</button>
                         </div>
                     </div>
