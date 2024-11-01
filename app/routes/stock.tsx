@@ -1,4 +1,5 @@
 import { Link, useLoaderData, Outlet } from "@remix-run/react";
+import utils from "~/utils";
 import db, { type Category } from "~/db";
 
 export const loader = async () => {
@@ -13,7 +14,7 @@ export default () => {
             <div className="flex mt-6">
                 <div className="w-9/12 h-80 overflow-y-scroll flex flex-wrap content-start gap-2">
                     {categories.map((category: Category, i: number) => (
-                        <Link to={`/stock/${category.name.toLowerCase()}`} key={`stock-${i}`} >
+                        <Link to={`/stock/${utils.toCamelCase(category.name)}`} key={`stock-${i}`} >
                             <div className="relative size-36 text-black cursor-pointer" style={{background: category.color}} >
                                 <p className="text-center">{category.name}</p>
                                 <span className="absolute w-11 h-2.5 rounded-lg cursor-default bg-black bottom-1.5 left-0 right-0 mx-auto"></span>
