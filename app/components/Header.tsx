@@ -29,7 +29,7 @@ export default function Header() {
                 </div>
                 <form className="ml-4 flex items-center justify-center rounded bg-neutral-900 p-1" onSubmit={(e) => e.preventDefault()}>
                     <HiOutlineSearch className="m-2" />
-                    <input className="mx-2 py-1 bg-transparent outline-none" type="text" placeholder="Quick Search" onChange={(e) => {
+                    <input className="mx-2 py-1 bg-transparent outline-none text-white" type="text" placeholder="Quick Search" onChange={(e) => {
                         const params = new URLSearchParams();
                         params.set(config.URL_SEARCH_PARAM, e.target.value);
                         setSearchParams(params, { preventScrollReset: true });
