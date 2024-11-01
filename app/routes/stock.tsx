@@ -29,13 +29,11 @@ export default () => {
                     <hr className="border-dashed mx-4" />
                     <div className="mx-4 mt-2">
                         <div className="h-52 overflow-auto">
-                            {Object.values(receipt).map((item: any, i: number) => {
-                                return (
-                                    <div key={`receipt-item-${i}`}>
-                                        <p><span>-</span> {item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
-                                    </div>
-                                );
-                            })}
+                            {Object.values(receipt).map((item: any, i: number) => (
+                                <div key={`receipt-item-${i}`}>
+                                    <p><span>-</span> {item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
+                                </div>
+                            ))}
                         </div>
                         <div className="flex align-center justify-between mt-5">
                             <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + item.price, 0)}</p>
