@@ -38,7 +38,7 @@ export default () => {
                                             obj[item.name] = { ...obj[item.name] };
                                             obj[item.name].count--;
 
-                                            if (obj[item.name].count == 0) {
+                                            if (obj[item.name].count === 0) {
                                                 delete obj[item.name];
                                             }
                                         }
