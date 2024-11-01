@@ -30,8 +30,23 @@ export default () => {
                     <div className="mx-4 mt-2">
                         <div className="h-52 overflow-auto">
                             {Object.values(receipt).map((item: any, i: number) => (
-                                <div key={`receipt-item-${i}`}>
-                                    <p><span>-</span> {item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
+                                <div className="cursor-pointer" key={`receipt-item-${i}`} onClick={() => {
+                                    setReceipt((prev: { [key: string]: any }): any => {
+                                        const obj = { ...prev };
+
+                                        if (obj[item.name].count - 1 >= 0) {
+                                            obj[item.name] = { ...obj[item.name] };
+                                            obj[item.name].count--;
+
+                                            if (obj[item.name].count == 0) {
+                                                delete obj[item.name];
+                                            }
+                                        }
+
+                                        return obj;
+                                    });
+                                }}>
+                                    <p>{item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
                                 </div>
                             ))}
                         </div>
