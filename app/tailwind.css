@@ -21,3 +21,7 @@ button {
 	text-decoration: none;
 	padding: 2px 4px;
 }
+
+input, select {
+    color: black;
+}
