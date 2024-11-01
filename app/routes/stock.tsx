@@ -1,4 +1,5 @@
 import { Link, useLoaderData, Outlet } from "@remix-run/react";
+import { useState } from "react";
 import utils from "~/utils";
 import db, { type Category } from "~/db";
 
@@ -8,6 +9,7 @@ export const loader = async () => {
 
 export default () => {
     const categories = useLoaderData<typeof loader>();
+    const [receipt, setReceipt] = useState([]);
 
     return (
         <div>
@@ -25,9 +27,24 @@ export default () => {
                 <div className="w-3/12 bg-neutral-900">
                     <p className="text-center my-2.5">Receipt</p>
                     <hr className="border-dashed mx-4" />
+                    <div className="mx-4 mt-2">
+                        <div className="h-52 overflow-auto">
+                            {Object.values(receipt).map((item: any, i: number) => {
+                                return (
+                                    <div key={`receipt-item-${i}`}>
+                                        <p><span>-</span> {item.name}: Rp. {item.price} ({item.count}x)</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="flex align-center justify-between mt-5">
+                            <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + item.price, 0)}</p>
+                            <button>Accept</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <Outlet />
+            <Outlet context={setReceipt} />
         </div>
     );
 }
