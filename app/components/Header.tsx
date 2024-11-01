@@ -8,12 +8,12 @@ const menu: any[] = [
         link: "/stock",
     },
     {
-        name: "Orders",
-        link: "/orders",
+        name: "Restock",
+        link: "/restock",
     },
     {
-        name: "History",
-        link: "/history",
+        name: "Orders",
+        link: "/orders",
     },
 ]
 
