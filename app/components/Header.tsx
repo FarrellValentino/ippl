@@ -2,22 +2,7 @@ import { HiOutlineShoppingCart, HiOutlineSearch } from "react-icons/hi";
 import { Link, useSearchParams } from "@remix-run/react";
 import config from "~/config";
 
-const menu: any[] = [
-    {
-        name: "Stock",
-        link: "/stock",
-    },
-    {
-        name: "Restock",
-        link: "/restock",
-    },
-    {
-        name: "Orders",
-        link: "/orders",
-    },
-]
-
-export default function Header() {
+export default ({ menu }: { menu: Array<{ label: string, link: string }> }) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     return (
@@ -40,7 +25,7 @@ export default function Header() {
                 <ul className="flex flex-row">
                     {menu.map((m: any, i: number) => (
                         <li className="ml-8" key={i}>
-                            <Link to={m.link} className="button">{m.name}</Link>
+                            <Link to={m.link} className="button">{m.label}</Link>
                         </li>
                     ))}
                 </ul>
