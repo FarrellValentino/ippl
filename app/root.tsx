@@ -5,6 +5,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  redirect,
 } from "@remix-run/react";
 import { MetaFunction } from "@remix-run/node";
 import { ReactLenis as Lenis } from "lenis/react";
@@ -20,8 +21,12 @@ export const meta: MetaFunction = () => [
     { title: "My Mart" },
 ];
 
-export const loader = async (): Promise<Category[]> => {
-    if (!db.exists()) await db.reset();
+export const loader = async () => {
+    if (!db.exists()) {
+        await db.reset();
+        return redirect("/");
+    }
+
     return await db.getCategories();
 };
 
