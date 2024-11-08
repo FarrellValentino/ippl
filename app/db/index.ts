@@ -124,7 +124,13 @@ export const getCategories = async (): Promise<Category[]> => {
     return await __open(async (db) => await db.all("SELECT * FROM Category"));
 }
 
+export const addProduct = async (product: Partial<Rack>): Promise<any> => {
+    return await __open(async (db) => {
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", product.category, product.name, product.price, product.stock);
+    });
+}
+
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
-const db = { reset, getRacks, getCategories, getRacksByCategory, exists };
+const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, exists };
 export default db;
