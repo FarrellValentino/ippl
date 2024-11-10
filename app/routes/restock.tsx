@@ -15,14 +15,16 @@ export const meta: MetaFunction = () => [
 
 export default () => {
   const { categories, racks } = useLoaderData<typeof loader>();
-  const [activeMenu, setActiveMenu] = useState<'register' | 'restock'>('register');
+  const [activeMenu, setActiveMenu] = useState<"register" | "restock">("register");
   const [selectedCategory, setSelectedCategory] = useState<string>(categories[0].name);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Rack | null>(null);
 
   const handleNewProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     
     const price = Number(formData.get("price"));
     const stock = Number(formData.get("stock"));
@@ -33,30 +35,31 @@ export default () => {
     }
 
     const productData: Partial<Rack> = {
-      category: formData.get("newCategory")?.toString() || formData.get("category")?.toString(),
+      category: formData.get("category")?.toString(),
       name: formData.get("name")?.toString(),
       price: price,
       stock: stock
     };
 
     try {
-      await fetch("/api/v1/racks", {
+      const res = await fetch("/api/v1/racks", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(productData),
       });
 
+      const data = await res.json();
+      console.log(data);
+
       // Reset form
-      e.currentTarget.reset();
+      formElement.reset();
+      alert("Success");
       setShowNewCategoryInput(false);
-      
-      // Optionally refresh the data
-      window.location.reload();
     } catch (error) {
-      console.error('Error adding product:', error);
-      alert('Failed to add product');
+      console.error("Error adding product:", error);
+      alert("Failed to add product");
     }
   };
 
@@ -64,7 +67,9 @@ export default () => {
     e.preventDefault();
     if (!editingProduct) return;
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
+
     const price = Number(formData.get("price"));
     const stock = Number(formData.get("stock"));
 
@@ -81,20 +86,20 @@ export default () => {
     };
 
     try {
-      await fetch(`/api/v1/racks/${editingProduct.id}`, {
+      await fetch(`/api/v1/racks`, {
         method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedProduct),
       });
 
+      formElement.reset();
+      alert("Success");
       setEditingProduct(null);
-      // Refresh the data
-      window.location.reload();
     } catch (error) {
-      console.error('Error updating product:', error);
-      alert('Failed to update product');
+      console.error("Error updating product:", error);
+      alert("Failed to update product");
     }
   };
 
@@ -110,28 +115,28 @@ export default () => {
       <div className="flex gap-4 mb-8">
         <button 
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-            activeMenu === 'register' 
-              ? 'bg-blue-600 hover:bg-blue-700' 
-              : 'bg-neutral-700 hover:bg-neutral-600'
+            activeMenu === "register" 
+              ? "bg-blue-600 hover:bg-blue-700" 
+              : "bg-neutral-700 hover:bg-neutral-600"
           }`}
-          onClick={() => setActiveMenu('register')}
+          onClick={() => setActiveMenu("register")}
         >
           Register New Product
         </button>
         <button 
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-            activeMenu === 'restock' 
-              ? 'bg-blue-600 hover:bg-blue-700' 
-              : 'bg-neutral-700 hover:bg-neutral-600'
+            activeMenu === "restock" 
+              ? "bg-blue-600 hover:bg-blue-700" 
+              : "bg-neutral-700 hover:bg-neutral-600"
           }`}
-          onClick={() => setActiveMenu('restock')}
+          onClick={() => setActiveMenu("restock")}
         >
           Restock Inventory
         </button>
       </div>
 
       {/* Register New Product Form */}
-      {activeMenu === 'register' && (
+      {activeMenu === "register" && (
         <form className="w-full max-w-md space-y-6" onSubmit={handleNewProduct}>
           <div className="space-y-2">
             <label className="block text-sm font-medium">Category</label>
@@ -163,7 +168,7 @@ export default () => {
                 <>
                   <input 
                     className="w-full h-10 bg-neutral-800 text-gray-300 rounded-lg px-3 border border-neutral-700 focus:outline-none focus:border-blue-500"
-                    name="newCategory"
+                    name="category"
                     type="text"
                     placeholder="New Category Name"
                     required
@@ -224,7 +229,7 @@ export default () => {
       )}
 
       {/* Restock Inventory Interface */}
-      {activeMenu === 'restock' && (
+      {activeMenu === "restock" && (
         <div className="w-full max-w-4xl">
           <div className="mb-6">
             <label className="block text-sm font-medium mb-2">Select Category</label>

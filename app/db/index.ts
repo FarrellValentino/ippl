@@ -130,7 +130,13 @@ export const addProduct = async (product: Partial<Rack>): Promise<any> => {
     });
 }
 
+export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
+    return await __open(async (db) => {
+        await db.run("UPDATE Racks SET name = ?, price = ?, stock = ? WHERE id = ?", product.name, product.price, product.stock, product.id);
+    });
+}
+
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
-const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, exists };
+const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, exists };
 export default db;
