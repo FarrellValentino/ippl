@@ -29,8 +29,8 @@ export default () => {
             hmap[item.category] += item.stock;
         }
 
-        const mostFilled = Object.entries(hmap).sort((a, b) => a[1] - b[1])[0];
-        return mostFilled[0];
+        const sortedEntries = Object.entries(hmap).sort((a, b) => b[1] - a[1]);
+        return sortedEntries[0][0];
     };
 
     const getMostStockedItem = (): string => {
