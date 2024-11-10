@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => [
 export default () => {
   const { categories, racks } = useLoaderData<typeof loader>();
   const [activeMenu, setActiveMenu] = useState<'register' | 'restock'>('register');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0].name);
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Rack | null>(null);
 
@@ -103,7 +103,7 @@ export default () => {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 text-white p-4">
+    <div className="flex flex-col items-center justify-center text-white mt-8">
       <h1 className="text-3xl font-bold mt-10 mb-4">Restock Management</h1>
       
       {/* Menu Selection */}
@@ -145,7 +145,8 @@ export default () => {
                   >
                     {categories.map((category: Category) => (
                       <option key={category.name} value={category.name}
-                        style={{backgroundColor: category.color}}>
+                        // style={{backgroundColor: category.color}}
+                        >
                         {category.name}
                       </option>
                     ))}
@@ -232,12 +233,11 @@ export default () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               value={selectedCategory}
             >
-              <option value="">Select a category</option>
               {categories.map((category: Category) => (
                 <option 
                   key={category.name} 
                   value={category.name}
-                  style={{backgroundColor: category.color}}
+                //   style={{backgroundColor: category.color}}
                 >
                   {category.name}
                 </option>
@@ -260,7 +260,7 @@ export default () => {
                           <input 
                             name="name"
                             defaultValue={rack.name}
-                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600"
+                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600 text-gray-300"
                             required
                           />
                           <input 
@@ -268,7 +268,7 @@ export default () => {
                             type="number"
                             min="0"
                             defaultValue={rack.price}
-                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600"
+                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600 text-gray-300"
                             required
                           />
                           <input 
@@ -276,7 +276,7 @@ export default () => {
                             type="number"
                             min="0"
                             defaultValue={rack.stock}
-                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600"
+                            className="bg-neutral-800 p-2 rounded-lg border border-neutral-600 text-gray-300"
                             required
                           />
                           <div className="flex gap-2">
