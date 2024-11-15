@@ -34,6 +34,23 @@ export default () => {
       return;
     }
 
+    const categoryName = formData.get("category")?.toString() || "";
+    if (showNewCategoryInput && !categories.find(c => c.name === categoryName)) {
+      try {
+        await fetch("/api/v1/categories", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: categoryName }),
+        });
+      } catch (error) {
+        console.error("Error adding category:", error);
+        alert("Failed to add category");
+        return;
+      }
+    }
+
     const productData: Partial<Rack> = {
       category: formData.get("category")?.toString(),
       name: formData.get("name")?.toString(),

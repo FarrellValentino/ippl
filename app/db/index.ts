@@ -136,7 +136,24 @@ export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
     });
 }
 
+export const addCategory = async (category: Partial<Category>): Promise<any> => {
+    return await __open(async (db) => {
+        await db.run(
+            "INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", 
+            category.name, 
+            category.color || generateRandomColor() // Fallback to random color if none provided
+        );
+    });
+}
+
+const generateRandomColor = (): string => {
+    const hue = Math.floor(Math.random() * 360);
+    return `hsl(${hue}, 70%, 80%)`; // Pastel-like colors
+};
+
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
-const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, exists };
+const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, addCategory, exists };
+
 export default db;
+
