@@ -1,6 +1,7 @@
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
 import fs from "fs";
+import utils from "~/utils";
 import config from "~/config";
 
 export type Rack = {
@@ -141,15 +142,10 @@ export const addCategory = async (category: Partial<Category>): Promise<any> => 
         await db.run(
             "INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", 
             category.name, 
-            category.color || generateRandomColor() // Fallback to random color if none provided
+            category.color || utils.generateRandomColor()
         );
     });
 }
-
-const generateRandomColor = (): string => {
-    const hue = Math.floor(Math.random() * 360);
-    return `hsl(${hue}, 70%, 80%)`; // Pastel-like colors
-};
 
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
