@@ -118,23 +118,12 @@ export const getRacks = async (): Promise<Rack[]> => {
 }
 
 export const getRacksByCategory = async (category: string): Promise<Rack[]> => {
+    console.log(category);
     return await __open(async (db) => await db.all("SELECT * FROM Racks WHERE category = ?", category));
 }
 
 export const getCategories = async (): Promise<Category[]> => {
     return await __open(async (db) => await db.all("SELECT * FROM Category"));
-}
-
-export const addProduct = async (product: Partial<Rack>): Promise<any> => {
-    return await __open(async (db) => {
-        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", product.category, product.name, product.price, product.stock);
-    });
-}
-
-export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
-    return await __open(async (db) => {
-        await db.run("UPDATE Racks SET name = ?, price = ?, stock = ? WHERE id = ?", product.name, product.price, product.stock, product.id);
-    });
 }
 
 export const addCategory = async (category: Partial<Category>): Promise<any> => {
@@ -144,6 +133,26 @@ export const addCategory = async (category: Partial<Category>): Promise<any> => 
             category.name, 
             category.color || utils.generateRandomColor()
         );
+    });
+}
+
+export const addProduct = async (product: Partial<Rack>): Promise<any> => {
+    return await __open(async (db) => {
+        const category = await db.get("SELECT * FROM Category WHERE name = ?", product.category);
+        console.log(category);
+
+        if (!category) {
+            console.log("??", category);
+            await db.run("INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", product.category, utils.generateRandomColor());
+        }
+
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", product.category, product.name, product.price, product.stock);
+    });
+}
+
+export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
+    return await __open(async (db) => {
+        await db.run("UPDATE Racks SET name = ?, price = ?, stock = ? WHERE id = ?", product.name, product.price, product.stock, product.id);
     });
 }
 

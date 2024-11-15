@@ -2,8 +2,18 @@ export const toCamelCase = (str: string): string => {
     return str.toLowerCase().split(" ").join("-");
 };
 
+export const toCapitalCase = (str: string): string => {
+    return str.toLowerCase().split(" ").map((word) => {
+        if (!word) {
+            return word;
+        }
+
+        return word[0].toUpperCase() + word.slice(1);
+    }).join(" ");
+};
+
 export const camelToCapitalCase = (str: string): string => {
-    return str.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ");
+    return toCapitalCase(str.split("-").join(" "));
 };
 
 export const generateRandomColor = (): string => {
@@ -20,6 +30,7 @@ export const generateRandomColor = (): string => {
 
 export default {
     toCamelCase,
+    toCapitalCase,
     camelToCapitalCase,
     generateRandomColor,
 };
