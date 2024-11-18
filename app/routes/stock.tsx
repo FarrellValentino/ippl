@@ -109,6 +109,10 @@ export default () => {
                 {items.map((item: Rack, i: number) =>
                     <div className="size-36 bg-neutral-900 mr-2 p-2 cursor-pointer" key={`stock-rack-${i}`} onClick={() => {
                         setReceipt((prev: { [key: string]: any }) => {
+                            if (!item.stock) {
+                                return prev;
+                            }
+
                             const obj = { ...prev };
 
                             if (!(item.name in obj)) {
