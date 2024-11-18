@@ -43,16 +43,13 @@ export default () => {
         };
 
         try {
-            const res = await fetch("/api/v1/racks", {
+            await fetch("/api/v1/racks", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(productData),
             });
-
-            const data = await res.json();
-            console.log(data);
 
             // Reset form
             formElement.reset();
