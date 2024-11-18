@@ -16,6 +16,7 @@ import utils from "~/utils";
 
 import "~/tailwind.css";
 import "lenis/dist/lenis.css";
+import config from "./config";
 
 export const meta: MetaFunction = () => [
     { title: "My Mart" },
@@ -35,7 +36,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     const menu: any[] = [
         {
             label: "Stock",
-            link: `/stock${!categories.length ? '' : `/${utils.toCamelCase(categories[0].name)}`}`,
+            link: `/stock${!categories.length ? '' : `?${config.URL_ACTIVE_RACK_PARAM}=${utils.toCamelCase(categories[0].name)}`}`,
         },
         {
             label: "Restock",
