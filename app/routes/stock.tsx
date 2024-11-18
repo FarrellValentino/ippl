@@ -1,4 +1,4 @@
-import { Link, useLoaderData, MetaFunction } from "@remix-run/react";
+import { Link, useLoaderData, MetaFunction, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 import utils from "~/utils";
 import db, { type Category, type Rack } from "~/db";
@@ -27,6 +27,7 @@ const RackForm = () => {
 }
 
 export default () => {
+    const navigate = useNavigate();
     const { categories, items } = useLoaderData<typeof loader>();
     const [receipt, setReceipt] = useState({});
     const [popupForm, setPopupForm] = useState<{ [key: string]: boolean }>({
@@ -82,8 +83,23 @@ export default () => {
                         </div>
                         <div className="flex align-center justify-between mt-5">
                             <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + (item.price * item.count), 0)}</p>
-                            <button onClick={() => {
-                                // TODO: call checkoutProducts()
+                            <button onClick={async () => {
+                                const products = Object.values(receipt);
+                                if (!products.length) {
+                                    return;
+                                }
+
+                                setReceipt({});
+
+                                await fetch("/api/v1/racks/checkout", {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify(products),
+                                });
+
+                                navigate(`.${window.location.search}`);
                             }}>Checkout</button>
                         </div>
                     </div>
@@ -111,7 +127,7 @@ export default () => {
                             return obj;
                         });
                     }}>
-                        <p>{item.name}</p>
+                        <p>{item.name} ({item.stock})</p>
                         <i className="text-sm">Rp. <span className="text-lime-400">{item.price}</span></i>
                     </div>
                 )}

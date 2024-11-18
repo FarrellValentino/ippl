@@ -156,9 +156,32 @@ export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
     });
 }
 
+export const checkoutProducts = async (products: Partial<Rack & { count: number }>[]): Promise<any> => {
+    return await __open(async (db) => {
+        for (const product of products) {
+            const stock = await db.get("SELECT stock FROM Racks WHERE id = ?", product.id);
+
+            if (!stock) throw new Error("checkoutProducts: `stock` undefined");
+            if (!product.count) throw new Error("checkoutProducts: `product.count` undefined");
+
+            if (stock - product.count < 0) {
+                // throw new Error(`checkoutProducts: (${product.name}) requested too much stock`);
+                return false;
+            }
+        }
+
+        for (const product of products) {
+            if (!product.count) throw new Error("checkoutProducts: `product.count` undefined");
+            await db.run("UPDATE Racks SET stock = stock - ? WHERE id = ?", product.count, product.id);
+        }
+
+        return true;
+    });
+}
+
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
-const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, addCategory, exists };
+const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, addCategory, checkoutProducts, exists };
 
 export default db;
 
