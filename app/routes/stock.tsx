@@ -105,9 +105,9 @@ export default () => {
                     </div>
                 </div>
             </div>
-            <div className="mt-6 flex">
+            <div className="mt-6 flex flex-wrap">
                 {items.map((item: Rack, i: number) =>
-                    <div className="size-36 bg-neutral-900 mr-2 p-2 cursor-pointer" key={`stock-rack-${i}`} onClick={() => {
+                    <div className="size-36 bg-neutral-900 mr-2 mb-2 p-2 cursor-pointer" key={`stock-rack-${i}`} onClick={() => {
                         setReceipt((prev: { [key: string]: any }) => {
                             if (!item.stock) {
                                 return prev;
