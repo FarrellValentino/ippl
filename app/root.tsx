@@ -43,8 +43,8 @@ export default ({ children }: { children: React.ReactNode }) => {
             link: "/restock",
         },
         {
-            label: "Orders",
-            link: "/orders",
+            label: "Receipts",
+            link: "/receipts",
         },
     ];
 

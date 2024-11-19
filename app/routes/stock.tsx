@@ -64,11 +64,11 @@ export default () => {
                                     setReceipt((prev: { [key: string]: any }): any => {
                                         const obj = { ...prev };
 
-                                        if (obj[item.name].count - 1 >= 0) {
+                                        if (obj[item.name].quantity - 1 >= 0) {
                                             obj[item.name] = { ...obj[item.name] };
-                                            obj[item.name].count--;
+                                            obj[item.name].quantity--;
 
-                                            if (obj[item.name].count === 0) {
+                                            if (obj[item.name].quantity === 0) {
                                                 delete obj[item.name];
                                             }
                                         }
@@ -76,13 +76,13 @@ export default () => {
                                         return obj;
                                     });
                                 }}>
-                                    <p>{item.name}: Rp. {item.price * item.count} ({item.count}x)</p>
+                                    <p>{item.name}: Rp. {item.price * item.quantity} ({item.quantity}x)</p>
                                     <span className="bg-red-700 text-sm px-2 rounded-lg hidden group-hover:block">-</span>
                                 </div>
                             ))}
                         </div>
                         <div className="flex align-center justify-between mt-5">
-                            <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + (item.price * item.count), 0)}</p>
+                            <p>Total: Rp. {Object.values(receipt).reduce((total: number, item: any): number => total + (item.price * item.quantity), 0)}</p>
                             <button onClick={async () => {
                                 const products = Object.values(receipt);
                                 if (!products.length) {
@@ -117,17 +117,17 @@ export default () => {
 
                             if (!(item.name in obj)) {
                                 obj[item.name] = { ...item };
-                                obj[item.name].count = 0;
+                                obj[item.name].quantity = 0;
                             }
 
                             obj[item.name] = { ...obj[item.name] };
 
                             // NOTE: not enough stock
-                            if (obj[item.name].count + 1 > obj[item.name].stock) {
+                            if (obj[item.name].quantity + 1 > obj[item.name].stock) {
                                 return obj;
                             }
 
-                            obj[item.name].count += 1;
+                            obj[item.name].quantity += 1;
                             return obj;
                         });
                     }}>

@@ -27,10 +27,25 @@ export const generateRandomColor = (): string => {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
+export const groupBy = (arr: unknown[], callback: Function): Object => {
+    const group: { [key: string | number | symbol]: unknown[] } = {};
+
+    for (const item of arr) {
+        const key = callback(item);
+        if (!(key in group)) {
+            group[key] = [];
+        }
+
+        group[key].push(item);
+    }
+
+    return group;
+};
 
 export default {
     toCamelCase,
     toCapitalCase,
     camelToCapitalCase,
     generateRandomColor,
+    groupBy,
 };

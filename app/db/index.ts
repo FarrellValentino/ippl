@@ -1,8 +1,16 @@
+/* TODO: use sql transactions
+ */
+
 import sqlite3 from "sqlite3";
 import { open, Database } from "sqlite";
+import { randomUUID } from "crypto";
 import fs from "fs";
-import utils from "~/utils";
+import utils, { groupBy } from "~/utils";
 import config from "~/config";
+import assert from "assert";
+
+/* enum */
+export type Payment = "Cash" | "Credit Card" | "QRIS";
 
 export type Rack = {
     id: number,
@@ -15,6 +23,19 @@ export type Rack = {
 export type Category = {
     name: string,
     color: string,
+};
+
+export type ReceiptProduct = Pick<Rack, "name" | "price"> & {
+    id: number,
+    receiptId: string,
+    quantity: number,
+}
+
+export type Receipt = {
+    id: string,
+    date: Date,
+    payment: Payment,
+    products: ReceiptProduct[],
 };
 
 /* Database open wrapper
@@ -110,6 +131,9 @@ export const reset = async () => {
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Condiments", "Ketchup", 15000, 70);
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Condiments", "Mustard", 18000, 35);
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Condiments", "BBQ Sauce", 22000, 45);
+
+        await db.run("CREATE TABLE IF NOT EXISTS Receipt (id VARCHAR(64) PRIMARY KEY NOT NULL, date DATETIME, payment VARCHAR(32))");
+        await db.run("CREATE TABLE IF NOT EXISTS ReceiptProducts (id INTEGER PRIMARY KEY AUTOINCREMENT, receiptId VARCHAR(64) REFERENCES Receipt(receiptId) NOT NULL, name VARCHAR(32) NOT NULL, quantity INTEGER NOT NULL, price INTEGER NOT NULL)");
     });
 };
 
@@ -153,32 +177,87 @@ export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
     });
 }
 
-export const checkoutProducts = async (products: Partial<Rack & { count: number }>[]): Promise<any> => {
+export const checkoutProducts = async (products: Partial<Rack & { quantity: number }>[]): Promise<any> => {
     return await __open(async (db) => {
         for (const product of products) {
             const stock = await db.get("SELECT stock FROM Racks WHERE id = ?", product.id);
 
             if (!stock) throw new Error("checkoutProducts: `stock` undefined");
-            if (!product.count) throw new Error("checkoutProducts: `product.count` undefined");
+            if (!product.quantity) throw new Error("checkoutProducts: `product.quantity` undefined");
 
-            if (stock - product.count < 0) {
+            if (stock - product.quantity < 0) {
                 // throw new Error(`checkoutProducts: (${product.name}) requested too much stock`);
                 return false;
             }
         }
 
         for (const product of products) {
-            if (!product.count) throw new Error("checkoutProducts: `product.count` undefined");
-            await db.run("UPDATE Racks SET stock = stock - ? WHERE id = ?", product.count, product.id);
+            if (!product.quantity) throw new Error("checkoutProducts: `product.quantity` undefined");
+            await db.run("UPDATE Racks SET stock = stock - ? WHERE id = ?", product.quantity, product.id);
+        }
+
+        const receiptId = randomUUID();
+        await db.run("INSERT OR IGNORE INTO Receipt (id, date, payment) VALUES (?, ?, ?)", receiptId, new Date().toISOString(), "Cash" as Payment);
+
+        for (const product of products) {
+            await db.run("INSERT OR IGNORE INTO ReceiptProducts (receiptId, name, quantity, price) VALUES (?, ?, ?, ?)", 
+                receiptId, 
+                product.name,
+                product.quantity,
+                product.price);
         }
 
         return true;
     });
 }
 
+export const getReceipts = async (): Promise<Receipt[]> => {
+    return await __open(async (db) => {
+        const receipts = await db.all("SELECT * FROM Receipt JOIN ReceiptProducts ON ReceiptProducts.receiptId = Receipt.id");
+        const grouped = Object.values(groupBy(receipts, (receipt: Partial<Receipt & ReceiptProduct>) => receipt.receiptId));
+        return grouped.map((receipts: Partial<Receipt & ReceiptProduct>[]): Receipt => {
+            const receipt = receipts[0];
+            assert(receipt && receipt.receiptId && receipt.date && receipt.payment);
+
+            return { 
+                id: receipt.receiptId,
+                date: receipt.date,
+                payment: receipt.payment,
+                products: receipts.map((receipt: Partial<Receipt & ReceiptProduct>): ReceiptProduct => {
+                    assert(receipt.id && receipt.receiptId && receipt.name && receipt.quantity && receipt.price);
+
+                    return { 
+                        id: receipt.id, 
+                        receiptId: receipt.receiptId,
+                        name: receipt.name, 
+                        quantity: receipt.quantity,
+                        price: receipt.price,
+                    }
+                })
+            };
+        });
+    });
+}
+
+export const addReceipt = async (products: Omit<ReceiptProduct, "receiptId">[]): Promise<any> => {
+    assert(false);
+    return await __open(async (db) => null);
+}
+
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
-const db = { reset, getRacks, getCategories, getRacksByCategory, addProduct, updateProduct, addCategory, checkoutProducts, exists };
+const db = {
+    reset,
+    getRacks,
+    getCategories,
+    getRacksByCategory,
+    addProduct,
+    updateProduct,
+    addCategory,
+    checkoutProducts,
+    getReceipts,
+    exists,
+};
 
 export default db;
 
