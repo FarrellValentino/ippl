@@ -68,6 +68,37 @@ export const reset = async () => {
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Seaweed Snacks", 8000, 40);
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Trail Mix", 25000, 15);
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Pocky Sticks", 13000, 18);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Chocolate Bars", 20000, 22);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Granola Bars", 14000, 35);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Rice Crackers", 10000, 50);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Fruit Gummies", 9000, 45);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Popcorn", 15000, 28);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Beef Jerky", 30000, 12);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Pretzels", 11000, 38);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Chocolate Chip Cookies", 18000, 25);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Yogurt Covered Raisins", 16000, 20);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Almond Biscotti", 19000, 15);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Caramel Popcorn", 18000, 30);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Wasabi Peas", 15000, 25);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Honey Roasted Peanuts", 13000, 40);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Salted Cashews", 20000, 18);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Veggie Chips", 17000, 22);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Sweet Potato Chips", 14000, 35);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Banana Chips", 9000, 50);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Cheese Puffs", 12000, 28);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Ginger Cookies", 16000, 20);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Protein Bars", 25000, 15);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Coconut Chips", 11000, 40);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Dried Mango Slices", 15000, 18);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Sea Salt Crackers", 10000, 42);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Mini Donuts", 20000, 20);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Chocolate Wafers", 17000, 25);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Apple Chips", 14000, 30);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Salted Almonds", 19000, 22);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Chewy Candies", 8000, 60);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Trail Granola Mix", 22000, 12);
+        await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Snacks", "Lemon Cookies", 16000, 24);
+
 
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Beverages", "Green Tea", 12000, 35);
         await db.run("INSERT OR IGNORE INTO Racks (category, name, price, stock) VALUES (?, ?, ?, ?)", "Beverages", "Orange Juice", 15000, 25);
