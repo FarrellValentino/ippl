@@ -85,12 +85,12 @@ export default () => {
         <div>
             {confirmationModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                <div className="bg-black p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+                  <h2 className="text-2xl font-bold mb-4 text-center">
                     Confirm Checkout
                   </h2>
-                  <p className="text-gray-600 text-lg text-center">
-                    Total: <span className="font-semibold text-gray-800">Rp. {totalAmount}</span>
+                  <p className="text-lg text-center">
+                    Total: <span className="font-semibold">Rp. {totalAmount}</span>
                   </p>
                   <div className="flex justify-center gap-4 mt-6">
                     <button
@@ -127,11 +127,11 @@ export default () => {
                     <div className="mx-4 mt-2">
                         <div className="h-52 overflow-auto">
                             {Object.values(receipt).map((item, i) => (
-                                <div className="flex items-center justify-between" key={`receipt-item-${i}`}>
+                                <div className="flex items-center justify-between mt-1" key={`receipt-item-${i}`}>
                                     <p>{item.name}: Rp. {item.price * item.quantity} ({item.quantity}x)</p>
                                     <div>
                                         <button 
-                                            className="bg-red-500 text-white px-2 rounded mr-1"
+                                            className="text-white px-2 rounded mr-1"
                                             onClick={() => removeFromReceipt(item.name)}
                                         >
                                             -
@@ -166,13 +166,12 @@ export default () => {
                         <i className="text-sm">Rp. <span className="text-lime-400">{item.price}</span></i>
                         <div className="absolute bottom-2 right-2 flex items-center">
                             <button 
-                                className="bg-green-500 text-white px-2 rounded mr-1"
+                                className="text-white px-2 rounded mr-1"
                                 onClick={() => addToReceipt(item)}
                                 disabled={!item.stock}
                             >
                                 +
                             </button>
-                            <span>{receipt[item.name]?.quantity || 0}</span>
                         </div>
                     </div>
                 ))}
