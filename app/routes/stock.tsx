@@ -73,9 +73,7 @@ export default () => {
         navigate(`.${window.location.search}`);
     };
 
-    const totalAmount = Object.values(receipt).reduce(
-        (total, item) => total + (item.price * item.quantity), 0
-    );
+    const totalAmount = Object.values(receipt).reduce((total, item) => total + (item.price * item.quantity), 0);
 
     return (
         <div>
@@ -137,7 +135,7 @@ export default () => {
                             ))}
                         </div>
                         <div className="flex align-center justify-between mt-5">
-                            <p>Total: Rp. {totalAmount}</p>
+                            <p>Total: Rp. {totalAmount.toLocaleString()}</p>
                             <button 
                                 onClick={() => {
                                     const products = Object.values(receipt);
