@@ -21,24 +21,37 @@ export default () => {
     const [selectedCategory, setSelectedCategory] = useState<string>(categories[0].name);
     const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
     const [editingProduct, setEditingProduct] = useState<Rack | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const checkDuplicateProduct = (name: string): boolean => {
+        return racks.some(rack => rack.name.toLowerCase() === name.toLowerCase());
+    };
 
     const handleNewProduct = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMessage(""); // Reset error message
 
         const formElement = e.currentTarget;
         const formData = new FormData(formElement);
 
         const price = Number(formData.get("price"));
         const stock = Number(formData.get("stock"));
+        const productName = formData.get("name")?.toString() || "";
 
         if (price < 0 || stock < 0) {
             alert("Price and stock cannot be negative");
             return;
         }
 
+        // Check for duplicate product
+        if (checkDuplicateProduct(productName)) {
+            setErrorMessage("INVALID (Barang Sudah Ada)");
+            return;
+        }
+
         const productData: Partial<Rack> = {
             category: formData.get("category")?.toString(),
-            name: formData.get("name")?.toString(),
+            name: productName,
             price: price,
             stock: stock
         };
@@ -52,9 +65,10 @@ export default () => {
                 body: JSON.stringify(productData),
             });
 
-            // Reset form
+            // Reset form and states
             formElement.reset();
             setShowNewCategoryInput(false);
+            setErrorMessage("");
             navigate(`.${window.location.search}`);
         } catch (error) {
             console.error("Error adding product:", error);
@@ -64,6 +78,8 @@ export default () => {
 
     const handleUpdateProduct = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMessage(""); // Reset error message
+        
         if (!editingProduct) return;
 
         const formElement = e.currentTarget;
@@ -71,15 +87,23 @@ export default () => {
 
         const price = Number(formData.get("price"));
         const stock = Number(formData.get("stock"));
+        const newName = formData.get("name")?.toString() || "";
 
         if (price < 0 || stock < 0) {
             alert("Price and stock cannot be negative");
             return;
         }
 
+        // Check for duplicate only if name is changed
+        if (newName.toLowerCase() !== editingProduct.name.toLowerCase() && 
+            checkDuplicateProduct(newName)) {
+            setErrorMessage("INVALID (Barang Sudah Ada)");
+            return;
+        }
+
         const updatedProduct = {
             ...editingProduct,
-            name: formData.get("name")?.toString(),
+            name: newName,
             price: price,
             stock: stock,
         };
@@ -95,6 +119,7 @@ export default () => {
 
             formElement.reset();
             setEditingProduct(null);
+            setErrorMessage("");
             navigate(`.${window.location.search}`);
         } catch (error) {
             console.error("Error updating product:", error);
@@ -132,6 +157,13 @@ export default () => {
                 </button>
             </div>
 
+            {/* Error Message Display */}
+            {errorMessage && (
+                <div className="w-full max-w-md mb-4 p-4 bg-red-500 text-white rounded-lg">
+                    {errorMessage}
+                </div>
+            )}
+
             {/* Register New Product Form */}
             {activeMenu === "register" && (
                 <form className="w-full max-w-md space-y-6" onSubmit={handleNewProduct}>
@@ -146,9 +178,7 @@ export default () => {
                                         required
                                     >
                                         {categories.map((category: Category) => (
-                                            <option key={category.name} value={category.name}
-                                            // style={{backgroundColor: category.color}}
-                                            >
+                                            <option key={category.name} value={category.name}>
                                                 {category.name}
                                             </option>
                                         ))}
@@ -240,7 +270,6 @@ export default () => {
                                 <option
                                     key={category.name}
                                     value={category.name}
-                                //   style={{backgroundColor: category.color}}
                                 >
                                     {category.name}
                                 </option>
@@ -292,7 +321,10 @@ export default () => {
                                                         <button
                                                             type="button"
                                                             className="flex-1 px-4 py-2 bg-neutral-600 hover:bg-neutral-700 rounded-lg transition-colors"
-                                                            onClick={() => setEditingProduct(null)}
+                                                            onClick={() => {
+                                                                setEditingProduct(null);
+                                                                setErrorMessage("");
+                                                            }}
                                                         >
                                                             Cancel
                                                         </button>
