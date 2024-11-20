@@ -53,7 +53,8 @@ export default () => {
         setReceipt((prev) => {
             const obj = { ...prev };
             if (obj[itemName]) {
-                obj[itemName].quantity--;
+                obj[itemName] = { ...obj[itemName], quantity: obj[itemName].quantity - 1 };
+
                 if (obj[itemName].quantity <= 0) {
                     delete obj[itemName];
                 }
