@@ -90,7 +90,7 @@ export default () => {
                     Confirm Checkout
                   </h2>
                   <p className="text-lg text-center">
-                    Total: <span className="font-semibold">Rp. {totalAmount}</span>
+                    Total: <span className="font-semibold">Rp. {totalAmount.toLocaleString()}</span>
                   </p>
                   <div className="flex justify-center gap-4 mt-6">
                     <button
@@ -128,7 +128,7 @@ export default () => {
                         <div className="h-52 overflow-auto">
                             {Object.values(receipt).map((item, i) => (
                                 <div className="flex items-center justify-between mt-1" key={`receipt-item-${i}`}>
-                                    <p>{item.name}: Rp. {item.price * item.quantity} ({item.quantity}x)</p>
+                                    <p>{item.name}: Rp. {(item.price * item.quantity).toLocaleString()} ({item.quantity}x)</p>
                                     <div>
                                         <button 
                                             className="text-white px-2 rounded mr-1"
@@ -163,7 +163,7 @@ export default () => {
                         key={`stock-rack-${i}`}
                     >
                         <p>{item.name} ({item.stock})</p>
-                        <i className="text-sm">Rp. <span className="text-lime-400">{item.price}</span></i>
+                        <i className="text-sm">Rp. <span className="text-lime-400">{item.price.toLocaleString()}</span></i>
                         <div className="absolute bottom-2 right-2 flex items-center">
                             <button 
                                 className="text-white px-2 rounded mr-1"

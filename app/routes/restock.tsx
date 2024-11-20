@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, MetaFunction } from "@remix-run/react";
+import { useLoaderData, MetaFunction, useNavigate } from "@remix-run/react";
 import { FormEvent } from "react";
 import db, { type Category, type Rack } from "~/db";
 import utils from "~/utils";
@@ -15,6 +15,7 @@ export const meta: MetaFunction = () => [
 ];
 
 export default () => {
+    const navigate = useNavigate();
     const { categories, racks } = useLoaderData<typeof loader>();
     const [activeMenu, setActiveMenu] = useState<"register" | "restock">("register");
     const [selectedCategory, setSelectedCategory] = useState<string>(categories[0].name);
@@ -53,8 +54,8 @@ export default () => {
 
             // Reset form
             formElement.reset();
-            alert("Success");
             setShowNewCategoryInput(false);
+            navigate(`.${window.location.search}`);
         } catch (error) {
             console.error("Error adding product:", error);
             alert("Failed to add product");
@@ -93,8 +94,8 @@ export default () => {
             });
 
             formElement.reset();
-            alert("Success");
             setEditingProduct(null);
+            navigate(`.${window.location.search}`);
         } catch (error) {
             console.error("Error updating product:", error);
             alert("Failed to update product");
