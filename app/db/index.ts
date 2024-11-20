@@ -181,6 +181,8 @@ export const getCategories = async (): Promise<Category[]> => {
 }
 
 export const addCategory = async (category: Partial<Category>): Promise<any> => {
+    assert(isNaN(Number(category.name)));
+
     return await __open(async (db) => {
         await db.run(
             "INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", 
@@ -191,6 +193,8 @@ export const addCategory = async (category: Partial<Category>): Promise<any> => 
 }
 
 export const addProduct = async (product: Partial<Rack>): Promise<any> => {
+    assert(isNaN(Number(product.name)));
+
     return await __open(async (db) => {
         const category = await db.get("SELECT * FROM Category WHERE name = ?", product.category);
 
@@ -203,6 +207,8 @@ export const addProduct = async (product: Partial<Rack>): Promise<any> => {
 }
 
 export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
+    assert(isNaN(Number(product.name)));
+
     return await __open(async (db) => {
         await db.run("UPDATE Racks SET name = ?, price = ?, stock = ? WHERE id = ?", product.name, product.price, product.stock, product.id);
     });
