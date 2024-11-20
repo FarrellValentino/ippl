@@ -5,11 +5,6 @@ import db, { type Category, type Rack } from "~/db";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import config from "~/config";
 
-// Define an interface for receipt items
-interface ReceiptItem extends Rack {
-    quantity: number;
-}
-
 export const loader = async ({ request }: LoaderFunctionArgs ) => {
     const params = new URL(request.url).searchParams;
     const rack = params.get(config.URL_ACTIVE_RACK_PARAM);
@@ -27,7 +22,7 @@ export const meta: MetaFunction = () => [
 export default () => {
     const navigate = useNavigate();
     const { categories, items } = useLoaderData<typeof loader>();
-    const [receipt, setReceipt] = useState<Record<string, ReceiptItem>>({});
+    const [receipt, setReceipt] = useState<Record<string, Rack & { quantity: number }>>({});
     const [confirmationModal, setConfirmationModal] = useState(false);
 
     const addToReceipt = (item: Rack) => {
