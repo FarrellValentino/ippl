@@ -142,7 +142,10 @@ export default () => {
                             ? "bg-blue-600 hover:bg-blue-700"
                             : "bg-neutral-700 hover:bg-neutral-600"
                         }`}
-                    onClick={() => setActiveMenu("register")}
+                    onClick={() => {
+                        setErrorMessage("");
+                        setActiveMenu("register")
+                    }}
                 >
                     Register New Product
                 </button>
@@ -151,7 +154,10 @@ export default () => {
                             ? "bg-blue-600 hover:bg-blue-700"
                             : "bg-neutral-700 hover:bg-neutral-600"
                         }`}
-                    onClick={() => setActiveMenu("restock")}
+                    onClick={() => {
+                        setErrorMessage("");
+                        setActiveMenu("restock")
+                    }}
                 >
                     Restock Inventory
                 </button>
