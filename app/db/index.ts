@@ -194,7 +194,7 @@ export const addCategory = async (category: Partial<Category>): Promise<any> => 
 
 export const addProduct = async (product: Partial<Rack>): Promise<any> => {
     assert(isNaN(Number(product.name)));
-    assert(product.stock && product.stock >= 0);
+    assert(product.stock !== undefined && product.stock >= 0);
 
     return await __open(async (db) => {
         const category = await db.get("SELECT * FROM Category WHERE name = ?", product.category);
@@ -209,7 +209,7 @@ export const addProduct = async (product: Partial<Rack>): Promise<any> => {
 
 export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
     assert(isNaN(Number(product.name)));
-    assert(product.stock && product.stock >= 0);
+    assert(product.stock !== undefined && product.stock >= 0);
 
     return await __open(async (db) => {
         await db.run("UPDATE Racks SET name = ?, price = ?, stock = ? WHERE id = ?", product.name, product.price, product.stock, product.id);
