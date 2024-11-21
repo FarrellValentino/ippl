@@ -23,6 +23,10 @@ export default () => {
     const [editingProduct, setEditingProduct] = useState<Rack | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
+    /* TODO: refactor, looks like a shit (2)
+     */
+    const [__LOCK_PAGE__, __SET_LOCK_PAGE__] = useState(false);
+
     const checkDuplicateProduct = (name: string, category: string): boolean => {
         return racks.some(rack => 
             rack.name.toLowerCase() === name.toLowerCase() &&
@@ -31,6 +35,9 @@ export default () => {
     };
 
     const handleNewProduct = async (e: FormEvent<HTMLFormElement>) => {
+        if (__LOCK_PAGE__) return;
+        __SET_LOCK_PAGE__(true);
+
         e.preventDefault();
         setErrorMessage(""); // Reset error message
 
@@ -78,9 +85,14 @@ export default () => {
             console.error("Error adding product:", error);
             alert("Failed to add product");
         }
+
+        __SET_LOCK_PAGE__(false);
     };
 
     const handleUpdateProduct = async (e: FormEvent<HTMLFormElement>) => {
+        if (__LOCK_PAGE__) return;
+        __SET_LOCK_PAGE__(true);
+
         e.preventDefault();
         setErrorMessage(""); // Reset error message
         
@@ -129,6 +141,8 @@ export default () => {
             console.error("Error updating product:", error);
             alert("Failed to update product");
         }
+
+        __SET_LOCK_PAGE__(false);
     };
 
     const filteredRacks = racks.filter(
