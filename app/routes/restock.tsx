@@ -23,8 +23,11 @@ export default () => {
     const [editingProduct, setEditingProduct] = useState<Rack | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const checkDuplicateProduct = (name: string): boolean => {
-        return racks.some(rack => rack.name.toLowerCase() === name.toLowerCase());
+    const checkDuplicateProduct = (name: string, category: string): boolean => {
+        return racks.some(rack => 
+            rack.name.toLowerCase() === name.toLowerCase() &&
+            rack.category.toLowerCase() === category.toLowerCase()
+        );
     };
 
     const handleNewProduct = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,7 +47,8 @@ export default () => {
         }
 
         // Check for duplicate product
-        if (checkDuplicateProduct(productName)) {
+        if (checkDuplicateProduct(productName, formData.get("category")?.toString() || selectedCategory)) {
+            console.log(productName, formData.get("category")?.toString() || selectedCategory);
             setErrorMessage("INVALID (Barang Sudah Ada)");
             return;
         }
@@ -96,7 +100,7 @@ export default () => {
 
         // Check for duplicate only if name is changed
         if (newName.toLowerCase() !== editingProduct.name.toLowerCase() && 
-            checkDuplicateProduct(newName)) {
+            checkDuplicateProduct(newName, selectedCategory)) {
             setErrorMessage("INVALID (Barang Sudah Ada)");
             return;
         }
