@@ -24,6 +24,7 @@ export default () => {
     const { categories, items } = useLoaderData<typeof loader>();
     const [receipt, setReceipt] = useState<Record<string, Rack & { quantity: number }>>({});
     const [confirmationModal, setConfirmationModal] = useState(false);
+    const [__LOCK_CHECKOUT__, __SET_LOCK_CHECKOUT__] = useState(false);
 
     const addToReceipt = (item: Rack) => {
         setReceipt((prev) => {
@@ -59,6 +60,9 @@ export default () => {
     };
 
     const handleCheckout = async () => {
+        if (__LOCK_CHECKOUT__) return;
+        __SET_LOCK_CHECKOUT__(true);
+
         const products = Object.values(receipt);
         if (!products.length) return;
 
@@ -70,6 +74,7 @@ export default () => {
 
         setReceipt({});
         setConfirmationModal(false);
+        __SET_LOCK_CHECKOUT__(false);
         navigate(`.${window.location.search}`);
     };
 
