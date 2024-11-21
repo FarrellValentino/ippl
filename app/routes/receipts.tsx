@@ -13,8 +13,21 @@ export const meta: MetaFunction = () => [
 export default () => {
     const receipts = useLoaderData<typeof loader>();
 
+    // Calculate total profit
+    const totalProfit = receipts.reduce((total, receipt) => {
+        const receiptTotal = receipt.products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+        return total + receiptTotal;
+    }, 0);
+
     return (
         <div className="p-4 space-y-4">
+            {/* Total Profit Display */}
+            <div className="rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow text-center mb-4">
+                <span className="text-2xl font-bold">
+                    Total Profit: Rp. {totalProfit.toLocaleString()}
+                </span>
+            </div>
+
             {receipts.map((receipt, i) => (
                 <div 
                     key={`receipt-${i}`} 
