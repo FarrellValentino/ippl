@@ -24,6 +24,9 @@ export default () => {
     const { categories, items } = useLoaderData<typeof loader>();
     const [receipt, setReceipt] = useState<Record<string, Rack & { quantity: number }>>({});
     const [confirmationModal, setConfirmationModal] = useState(false);
+
+    /* TODO: refactor, looks like a shit
+     */
     const [__LOCK_CHECKOUT__, __SET_LOCK_CHECKOUT__] = useState(false);
 
     const addToReceipt = (item: Rack) => {
