@@ -38,10 +38,16 @@ export type Receipt = {
     products: ReceiptProduct[],
 };
 
+let __filename: string = config.DB_FILEPATH;
+
+export const temp = (filename: string) => {
+    __filename = filename;
+};
+
 /* Database open wrapper
  */
 const __open = async <T>(callback: (db: Database<sqlite3.Database, sqlite3.Statement>) => Promise<T>): Promise<T> => {
-    const db = await open({filename: config.DB_FILEPATH, driver: sqlite3.Database});
+    const db = await open({filename: __filename, driver: sqlite3.Database});
     const value = await callback(db);
     await db.close();
     return value;
@@ -286,6 +292,7 @@ export const addReceipt = async (products: Omit<ReceiptProduct, "receiptId">[]):
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
 const db = {
+    temp,
     reset,
     getRacks,
     getCategories,
