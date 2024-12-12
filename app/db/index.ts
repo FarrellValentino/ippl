@@ -40,8 +40,9 @@ export type Receipt = {
 
 let __filename: string = config.DB_FILEPATH;
 
-export const temp = (filename: string) => {
+export const temp = async (filename: string) => {
     __filename = filename;
+    await reset();
 };
 
 /* Database open wrapper
