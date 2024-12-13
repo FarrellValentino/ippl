@@ -207,6 +207,8 @@ export const addProduct = async (product: Omit<Rack, 'id'>): Promise<any> => {
         const category = await db.get("SELECT * FROM Category WHERE name = ?", product.category);
 
         if (!category) {
+            /* TODO: call addCategory()
+             */
             assert(product.category.trim());
             await db.run("INSERT OR IGNORE INTO Category (name, color) VALUES (?, ?)", utils.toCapitalCase(product.category), utils.generateRandomColor());
         }
