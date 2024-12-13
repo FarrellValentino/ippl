@@ -217,7 +217,7 @@ export const addProduct = async (product: Omit<Rack, 'id'>): Promise<any> => {
     });
 }
 
-export const updateProduct = async (product: Partial<Rack>): Promise<any> => {
+export const updateProduct = async (product: Rack): Promise<any> => {
     assert(isNaN(Number(product.name)));
     assert(product.stock !== undefined && product.stock >= 0);
 
