@@ -290,7 +290,8 @@ export const addReceipt = async (products: Omit<ReceiptProduct, "receiptId">[]):
     return await __open(async (db) => null);
 }
 
-export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
+export const exists = (filename?: string): boolean => fs.existsSync(filename || __filename);
+export const remove = (filename?: string): void => fs.rmSync(filename || __filename);
 
 const db = {
     use,
@@ -304,6 +305,7 @@ const db = {
     checkoutProducts,
     getReceipts,
     exists,
+    remove,
 };
 
 export default db;
