@@ -31,18 +31,18 @@ describe("Database tests", async () => {
     });
 
     test("Adding numeric products", async () => {
-        try { expect(await db.addProduct({ name: "555" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
-        try { expect(await db.addProduct({ name: "69420" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
+        try { expect(await db.addProduct({ name: "555", stock: 1, price: 10_000, category: "" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
+        try { expect(await db.addProduct({ name: "69420", stock: 1, price: 10_000, category: "" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
     });
 
     test("Adding products with negative stock", async () => {
-        try { expect(await db.addProduct({ name: "Jack Atlas", stock: -1, })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
-        try { expect(await db.addProduct({ name: "Jack Daniel's", stock: -69420, })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
+        try { expect(await db.addProduct({ name: "Jack Atlas", stock: -1, price: 10_000, category: "" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
+        try { expect(await db.addProduct({ name: "Jack Daniel's", stock: -69420, price: 10_000, category: "" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
     });
 
     test("Adding products with unknown category", async () => {
         await db.addProduct({ name: "Jack Atlas", price: 20_000, stock: 1, category: "Booze" });
-        await db.addProduct({ name: "Jack Daniel's", price: 29_000, stock: 1, category: "Booze" });
+        await db.addProduct({ name: "Jack Daniel's", price: 29_000, stock: 1, category: "booze" });
 
         const categories = await db.getCategories();
         expect(categories).not.toHaveLength(0);
