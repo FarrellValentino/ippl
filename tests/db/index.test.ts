@@ -1,12 +1,13 @@
 import { describe, expect, test } from "vitest";
 import { AssertionError } from "assert";
-import * as db from "app/db";
+import db from "app/db";
 
 describe("Database tests", async () => {
-    await db.temp("tests/mymart.temp.db");
+    await db.use("tests/mymart.temp.db");
 
     test("Wrong data format", async () => {
         try { expect(await db.addCategory({ name: "124" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
+        try { expect(await db.addCategory({ name: "69420" })).not.toBeUndefined() } catch (e) { expect(e).toBeInstanceOf(AssertionError) }
     });
 
     test("Adding new categories", async () => {

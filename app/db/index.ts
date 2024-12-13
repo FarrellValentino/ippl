@@ -40,7 +40,7 @@ export type Receipt = {
 
 let __filename: string = config.DB_FILEPATH;
 
-export const temp = async (filename: string) => {
+export const use = async (filename: string) => {
     __filename = filename;
     await reset();
 };
@@ -293,7 +293,7 @@ export const addReceipt = async (products: Omit<ReceiptProduct, "receiptId">[]):
 export const exists = (): boolean => fs.existsSync(config.DB_FILEPATH);
 
 const db = {
-    temp,
+    use,
     reset,
     getRacks,
     getCategories,
